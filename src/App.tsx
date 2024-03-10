@@ -1,10 +1,11 @@
 import React from "react";
-import { MdClose } from "react-icons/md";
+
 import { IoIosColorPalette } from "react-icons/io";
 import { TbClick } from "react-icons/tb";
 import { LuPaintbrush } from "react-icons/lu";
-import { Stack } from "@mui/material";
-import { SketchPicker, HuePicker, CirclePicker } from 'react-color';
+
+import { FaGithub } from "react-icons/fa";
+import { HuePicker, CirclePicker } from 'react-color';
 
 interface Level {
   color: string;
@@ -173,7 +174,7 @@ function App() {
 
       const col: string = colorsCodes[index] !== undefined &&
         typeof colorsCodes[index] === 'string' ?
-        colorsCodes[index] : " ";
+        colorsCodes[index]?.toString() : " ";
       document.getElementById(`${index}`)?.setAttribute('fill',
         col
       );
@@ -288,7 +289,7 @@ function App() {
     SetCircles(GridSquares);
   }
 
-  const handleChangeComplete = (color: string) => {
+  const handleChangeComplete = (color: any) => {
     SetCurrentColor(color.hex);
 
   };
@@ -352,6 +353,10 @@ function App() {
       <svg onWheel={handleWheel} style={{ position: "absolute" }} width="100vw" height="100vh" >
         {Circles}
       </svg>
+      <div style={{width:"100%",backgroundColor:"#111",zIndex:1,position:"absolute",gap:"10px",bottom:"0",right:"0",padding:"10px",justifyContent:"center", display:"flex",flexDirection:"row" }}>
+          <FaGithub style={{cursor:"pointer",color:"#fff",fontSize:"25px" }}/>
+          <a style={{color:"#fff"}} target='_blank' href='https://github.com/NovaDesignedIt/SimplePixelPad'>github.com/NovaDesignedIt/SimplePixelPad</a>
+        </div>
     </div>
 
   )
