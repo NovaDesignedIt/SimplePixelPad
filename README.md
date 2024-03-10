@@ -5,3 +5,8 @@ Play with Colors :)
 
 
 ![Alt Text](src/assets/art.png)
+
+
+Stop working for a bit and play a little.
+
+https://pixelpad.pages.dev/ 🎨

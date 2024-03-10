@@ -7,17 +7,17 @@ import { LuPaintbrush } from "react-icons/lu";
 import { FaGithub } from "react-icons/fa";
 import { HuePicker, CirclePicker } from 'react-color';
 
-interface Level {
-  color: string;
-  temp: number;
-}
+// interface Level {
+//   color: string;
+//   temp: number;
+// }
 
-interface actionMemory {
-  blockid: number
-  color1: string
-  color2: string
+// interface actionMemory {
+//   blockid: number
+//   color1: string
+//   color2: string
 
-}
+// }
 
 
 function App() {
@@ -28,11 +28,12 @@ function App() {
   const [BrushOrClick, SetBrushOrClick] = React.useState(false)
   const [SmoothToolSet, SetSmoothTool] = React.useState(false);
   const [RowCount, SetRowCount] = React.useState(0)
+  // @ts-ignore
   const [ColCount, SetColCount] = React.useState(0)
-  const [windowSize, setWindowSize] = React.useState({
-    width: window.innerWidth,
-    height: window.innerHeight
-  });
+  // const [windowSize, setWindowSize] = React.useState({
+  //   width: window.innerWidth,
+  //   height: window.innerHeight
+  // });
 
 
 
@@ -44,8 +45,7 @@ function App() {
       //DrawGrid(size + 5)
     }
   };
-  const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
+ 
   const handleMouseOver = (e: any) => { 
     !SmoothToolSet && !BrushOrClick && mouseDown && e.target.setAttribute('fill', currentColor);
     
@@ -115,6 +115,8 @@ function App() {
     const regex = /^#([A-Fa-f0-9]{6})$/;
     return regex.test(hexColor);
   }
+
+  // @ts-ignore
   function hexToHSL(hex: string) {
     // Convert hexadecimal color to HSL
     const r = parseInt(hex.slice(1, 3), 16) / 255;
@@ -146,13 +148,13 @@ function App() {
     return { h, s, l };
   }
 
-  function compareColors(hex1: string, hex2: string) {
+  // function compareColors(hex1: string, hex2: string) {
 
-    const { l: l1 } = hexToHSL(hex1);
-    const { l: l2 } = hexToHSL(hex2);
-    return l1 - l2;
+  //   const { l: l1 } = hexToHSL(hex1);
+  //   const { l: l2 } = hexToHSL(hex2);
+  //   return l1 - l2;
 
-  }
+  // }
 
   const sortColors = () => {
     console.log(Circles)
@@ -172,18 +174,20 @@ function App() {
     for (let index = 0; index < Circles.length; index++) {
       // Adjust delay time as needed
 
-      const col: string = colorsCodes[index] !== undefined &&
+      const col: string | void = colorsCodes[index] !== undefined &&
         typeof colorsCodes[index] === 'string' ?
         colorsCodes[index]?.toString() : " ";
-      document.getElementById(`${index}`)?.setAttribute('fill',
-        col
-      );
+      if (col) {
+        document.getElementById(`${index}`)?.setAttribute('fill',
+          col
+        );
+      }
     }
   }
 
   const SmoothTool = async (event:Event) => {
 
-    var index:number = parseInt(event?.target?.id)
+    var index:number = parseInt((event?.target as any).id )
 
     
 
@@ -199,7 +203,7 @@ function App() {
 
       //console.log(document.getElementById(`${index}`)?.getAttribute('fill'));
 
-      var currentColor = document.getElementById(`${index}`)?.getAttribute('fill');
+      // var currentColor = document.getElementById(`${index}`)?.getAttribute('fill');
 
       var topleftval = document.getElementById(`${topleft}`)?.getAttribute('fill');
       var topmidval = document.getElementById(`${topmid}`)?.getAttribute('fill');
@@ -214,13 +218,15 @@ function App() {
 
       //    console.log(colors)
 
-      var rgbColors = colors.filter(x => isValidColor(x !== undefined && typeof x === 'string' ? x : "")).map(hexToRgb);
+      // @ts-ignore
+      const rgbColors:any = colors.filter(x => isValidColor(x !== undefined && typeof x === 'string' ? x : "")).map(hexToRgb);
 
       // Calculate the mean RGB components
       var totalR = 0;
       var totalG = 0;
       var totalB = 0;
-
+      
+      // @ts-ignore
       rgbColors.forEach(color => {
         totalR += color.r;
         totalG += color.g;
@@ -294,9 +300,9 @@ function App() {
 
   };
 
-  const start = () => {
-    DrawGrid()
-  }
+  // const start = () => {
+  //   DrawGrid()
+  // }
 
   React.useEffect(() => {
     DrawGrid()
@@ -321,7 +327,7 @@ function App() {
           <button onClick={HandleHotOrColdRandomization} style={{ border: "1px solid #444", outline: "none", cursor: "pointer", borderRadius: "2px", width: "200px", fontFamily: '"Ubuntu Mono", monospace', backgroundColor: "#333", color: "#000", fontWeight: "0" }}>        <h4 style={{ fontFamily: '"Ubuntu Mono", monospace', margin: "0", color: "#fff" }}>Random Hot-or-Cold</h4></button>
         </div>
         <div style={{ cursor: "pointer", flexDirection: "column", display: "flex" }}>
-          <button onClick={(e)=>{SetSmoothTool(!SmoothToolSet)}} style={{  border: SmoothToolSet ?  "2px solid #fff":  "1px solid #444", outline: "none", cursor: "pointer", borderRadius: "2px", width: "200px", fontFamily: '"Ubuntu Mono", monospace', backgroundColor: "#333", color: "#000", fontWeight: "0" }}>        <h4 style={{ fontFamily: '"Ubuntu Mono", monospace', margin: "0", color: "#fff" }}>smooth</h4></button>
+          <button onClick={()=>{SetSmoothTool(!SmoothToolSet)}} style={{  border: SmoothToolSet ?  "2px solid #fff":  "1px solid #444", outline: "none", cursor: "pointer", borderRadius: "2px", width: "200px", fontFamily: '"Ubuntu Mono", monospace', backgroundColor: "#333", color: "#000", fontWeight: "0" }}>        <h4 style={{ fontFamily: '"Ubuntu Mono", monospace', margin: "0", color: "#fff" }}>smooth</h4></button>
         </div>
         <div style={{ cursor: "pointer", flexDirection: "column", display: "flex" }}>
           <button onClick={ClearGrid} style={{ border: "1px solid #444", outline: "none", cursor: "pointer", borderRadius: "2px", width: "200px", fontFamily: '"Ubuntu Mono", monospace', backgroundColor: "#333", color: "#000", fontWeight: "0" }}>        <h4 style={{ fontFamily: '"Ubuntu Mono", monospace', margin: "0", color: "#fff" }}>Clear</h4></button>
@@ -339,7 +345,7 @@ function App() {
         <div style={{ padding: "5px", cursor: "pointer", flexDirection: "column", display: "flex", width: "90%", height: "90%" }}>
           <IoIosColorPalette onClick={() => { setColorOpen(!colorOpen) }} style={{ color: "#eee", height: "30px", width: "30px" }} />
           {colorOpen &&
-            <div onMouseLeave={(e)=>{setColorOpen(false)}} onDoubleClick={() => { setColorOpen(!colorOpen) }} style={{ overflow: "auto", padding: "20px", gap: "30px", flexDirection: "column", display: "flex", position: "absolute", visibility: "visible", backgroundColor: "#000", border: "1px solid #555", zIndex: 1 }}>
+            <div onMouseLeave={()=>{setColorOpen(false)}} onDoubleClick={() => { setColorOpen(!colorOpen) }} style={{ overflow: "auto", padding: "20px", gap: "30px", flexDirection: "column", display: "flex", position: "absolute", visibility: "visible", backgroundColor: "#000", border: "1px solid #555", zIndex: 1 }}>
               <HuePicker color={currentColor} onChangeComplete={handleChangeComplete} />
               <CirclePicker width={'100%'} color={currentColor} onChangeComplete={handleChangeComplete} />
               <div style={{ width: "100%", justifyContent: "Right", display: "flex", flexDirection: "row" }}>
