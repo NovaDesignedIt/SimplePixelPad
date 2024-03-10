@@ -290,7 +290,7 @@ function App() {
 
   const handleChangeComplete = (color: string) => {
     SetCurrentColor(color.hex);
-  
+    //test
   };
 
   const start = () => {
